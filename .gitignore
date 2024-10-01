@@ -362,3 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /ff3f3add-7b1d-4f08-ba27-7a9c24fbcd34.csv
+/src/IO.Swagger/temp
