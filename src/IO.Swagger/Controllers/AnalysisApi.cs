@@ -94,7 +94,7 @@ namespace IO.Swagger.Controllers
             //TODO: Uncomment the next line to return response 202 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             var guid = Guid.NewGuid();            
             WorkerInput workerInput = new WorkerInput((int)par,(long)initialMm, (long)endMm,(double)lowThr, (double)mediumThr, (double)highThr, guid.ToString());
-            Thread thread = new Thread(new ParameterizedThreadStart(Worker),1500);
+            Thread thread = new Thread(new ParameterizedThreadStart(Worker));
             thread.Start(workerInput);
             return StatusCode(202, guid.ToString());
 
