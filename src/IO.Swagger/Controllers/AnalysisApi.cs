@@ -23,6 +23,8 @@ using Application.Interfaces.Repositories;
 using Infrastructure.Persistance.Repositories;
 using System.Threading.Tasks;
 using System.IO;
+using static IO.Swagger.Controllers.AnalysisApiController;
+using System.Xml.Linq;
 
 
 namespace IO.Swagger.Controllers
@@ -53,14 +55,29 @@ namespace IO.Swagger.Controllers
         [ValidateModelState]
         [SwaggerOperation("GetAnalysisResults")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<Defect>), description: "successful operation")]
-        [SwaggerResponse(statusCode: 202, type: typeof(string), description: "successful operation")]
-        public virtual IActionResult GetAnalysisResults([FromRoute][Required]int? GUID)
-        { 
+        [SwaggerResponse(statusCode: 202, type: typeof(string), description: "successful operation - job pending")]
+        public virtual async Task<IActionResult> GetAnalysisResults([FromRoute][Required]string? GUID)
+        {
+            string jobState = jobRepository.GetJobState(GUID);
+
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(List<Defect>));
+            if (jobState.Equals("Pending"))
+            {
+                return StatusCode(202, default(string));
+            }
+            else if(jobState.Equals("Success"))
+            {
+                string result;
+
+                using StreamReader reader = new StreamReader(Path.Combine(@"./temp", $"{GUID}.txt"));
+
+                // Read the stream as a string.
+                result = reader.ReadToEnd();
+                return StatusCode(202, result);
+            }
 
             //TODO: Uncomment the next line to return response 202 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(202, default(string));
+            
 
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);

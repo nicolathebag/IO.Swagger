@@ -42,7 +42,13 @@ namespace Infrastructure.Persistance.Repositories
 
         public string GetJobState(string guid)
         {
-            return _dbContext.Jobs.Where(m => m.Id.Equals(guid, StringComparison.Ordinal)).ToList().FirstOrDefault().State;
+            string state =_dbContext.Jobs.AsEnumerable()
+                            .Where(m => m.Id.Equals(guid, StringComparison.Ordinal))
+                            .Select(m => m.State)
+                            .ToList()
+                            .FirstOrDefault();
+
+            return state;
             throw new NotImplementedException();
         }
 
