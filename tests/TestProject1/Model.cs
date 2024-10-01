@@ -3,7 +3,8 @@ using Domain.Models;
 namespace Tests.Models
 {
     public class MeasuresContext : DbContext
-    {
+    {       
+
         public DbSet<Measure> Measures { get; set; }
         public DbSet<Defect> Defects { get; set; }
 
@@ -11,9 +12,9 @@ namespace Tests.Models
 
         public string DbPath { get; }
 
-        public MeasuresContext()
+        public MeasuresContext(string connString)
         {
-            DbPath = "Server=localhost;Database=CLEAN_ARCH_TEST;Trusted_Connection=true;TrustServerCertificate=True";
+            DbPath = connString;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)

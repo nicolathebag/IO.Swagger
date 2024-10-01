@@ -10,9 +10,12 @@ using Newtonsoft.Json;
 
 namespace TestProject1
 {
+    
     [TestFixture]
     public class Defects_IsDeltaCorrect
     {
+        const string tempPath = @"C:\Users\nlosa\source\repos\nicolathebag\aspnetcore-server-generated\src\IO.Swagger\temp";
+        const string connString = "Server=localhost;Database=CLEAN_ARCH_TEST;Trusted_Connection=true;TrustServerCertificate=True";
         private List<Defect> defectsList;
         private List<Measure> measures;
 
@@ -21,11 +24,11 @@ namespace TestProject1
         public void SetUp()
         {
             //measures
-            var context = new MeasuresContext();
+            var context = new MeasuresContext(connString);
             measures = context.Measures.AsEnumerable().ToList();
 
             string defectsJson;
-            using StreamReader reader = new StreamReader(Path.Combine(@"C:\Users\nlosa\source\repos\nicolathebag\aspnetcore-server-generated\src\IO.Swagger\temp", $"a20b8335-4c22-4efe-a6a4-9e8456a0913c.txt"));
+            using StreamReader reader = new StreamReader(Path.Combine(tempPath, $"a20b8335-4c22-4efe-a6a4-9e8456a0913c.txt"));
 
             // Read the stream as a string.
             defectsJson = reader.ReadToEnd();
@@ -37,7 +40,7 @@ namespace TestProject1
         }
 
         [Test]
-        public void AreAllDefectsDeltaCorrect()
+        public void AreLowDefectsDeltaOnP1Correct()
         {
             foreach (var item in defectsList)
             {

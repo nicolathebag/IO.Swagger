@@ -13,10 +13,10 @@ using Newtonsoft.Json;
 
 class Program
 {
-    static async Task Main(string[] args)
-    {
-        const string filePath = @"C:\Users\nlosa\source\repos\nicolathebag\aspnetcore-server-generated\ff3f3add-7b1d-4f08-ba27-7a9c24fbcd34.csv";
-        const int batchSize = 1000;
+    const string filePath = @"C:\Users\nlosa\source\repos\nicolathebag\aspnetcore-server-generated\ff3f3add-7b1d-4f08-ba27-7a9c24fbcd34.csv";
+    const int batchSize = 1000;
+    static async Task Main(string[] args)    {
+        
 
         //SETUP
         await GetDataFromCsvAsync(filePath, batchSize);
